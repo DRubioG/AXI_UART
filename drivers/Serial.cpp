@@ -1,0 +1,157 @@
+#include "Serial.h"
+
+uint32_t Serial::readReg(int reg)
+{
+    return Xil_In32(_address + reg);
+}
+
+Serial::Serial(uint32_t address)
+{
+    _address = address;
+}
+
+Serial::~Serial()
+{
+}
+
+int Serial::available()
+{
+    uint32_t reg = readReg(REG1);
+
+    if ((reg >> 4) & 0x01)
+    {
+        uint32_t read_bytes = readReg(REG2);
+        return read_bytes
+    }
+    return 0;
+}
+
+int Serial::availableForWrite()
+{
+    uint32_t reg = readReg(REG1);
+
+    if ((reg >> 4) & 0x01)
+    {
+        uint32_t read_bytes = readReg(REG2);
+        return read_bytes
+    }
+    return 0;
+}
+
+void begin(long baud)
+{
+    uint32_t reg = readReg(CONF);
+
+    uint32_t reg_blank = reg & 0xFFF00;
+
+    Xil_Out32(_address, reg_blank | baud);
+}
+
+void begin(long baud, SerialConfig config)
+{
+    begin(baud);
+
+    uint32_t reg = readReg(CONF);
+    uint32_t reg_blank = reg & 0xFFF00;
+
+    switch (config)
+    {
+    case SERIAL_5N1:
+        break;
+    case SERIAL_6N1:
+        break;
+    case SERIAL_7N1:
+        break;
+    case SERIAL_8N1:
+        break;
+    case SERIAL_5N2:
+        break;
+    case SERIAL_6N2:
+        break;
+    case SERIAL_7N2:
+        break;
+    case SERIAL_8N2:
+        break;
+    case SERIAL_5E1:
+        break;
+    case SERIAL_6E1:
+        break;
+    case SERIAL_7E1:
+        break;
+    case SERIAL_8E1:
+        break;
+    case SERIAL_5E2:
+        break;
+    case SERIAL_6E2:
+        break;
+    case SERIAL_7E2:
+        break;
+    case SERIAL_8E2:
+        break;
+    case SERIAL_5O1:
+        break;
+    case SERIAL_6O1:
+        break;
+    case SERIAL_7O1:
+        break;
+    case SERIAL_8O1:
+        break;
+    case SERIAL_5O2:
+        break;
+    case SERIAL_6O2:
+        break;
+    case SERIAL_7O2:
+        break;
+    case SERIAL_8O2:
+        break;
+
+    default:
+        break;
+    }
+
+    Xil_Out32(_address, reg_blank | (type_serial << 9));
+}
+
+void Serial::end()
+{
+    uint32_t reg = Xil_In32(_address + CONF);
+    Xil_Out32(reg & ~0x1)
+}
+
+size_t Serial::print(char *val)
+{
+    size_t size = sizeof(val);
+
+    for (size_t i = 0; i < size; i++)
+    {
+    }
+
+    return size;
+}
+
+size_t Serial::println(char *val)
+{
+    size_t size = sizeof(val);
+
+    for (size_t i = 0; i < size; i++)
+    {
+    }
+
+    Xil_Out32(_address + WRITE_REG)
+
+        return size;
+}
+
+int Serial::read()
+{
+    uint32_t read = Xil_Int32(_address + READ_REG);
+
+    int data = read & 0xFF;
+
+    return data;
+}
+
+size_t Serial::write(int val)
+{
+    print(val);
+}
