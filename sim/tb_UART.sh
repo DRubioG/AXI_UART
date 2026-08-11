@@ -1,9 +1,9 @@
 
-nvc -a ../src/clk_div.vhd
-nvc -a ../src/antirrebotes.vhd
-nvc -a ../src/TX.vhd
-nvc -a ../src/RX.vhd
-nvc -a ../src/UART.vhd
+nvc -a ../ip/AXI_UART_1_0/src/clk_div.vhd
+nvc -a ../ip/AXI_UART_1_0/src/antirrebotes.vhd
+nvc -a ../ip/AXI_UART_1_0/src/TX.vhd
+nvc -a ../ip/AXI_UART_1_0/src/RX.vhd
+nvc -a ../ip/AXI_UART_1_0/src/UART.vhd
 
 nvc -a tb_UART.vhd
 

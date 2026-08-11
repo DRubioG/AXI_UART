@@ -58,6 +58,7 @@ begin
   end process;
   AND_L  : s_J <= s_d_ff1 and s_d_ff2 and s_d_ff3 and s_d_ff4;
   N_OR_L : s_K <= not (s_d_ff1 or s_d_ff2 or s_d_ff3 or s_d_ff4);
+  --! Biestable JK
   JK_FF : process (CLK_I, RST_N_I)
   begin
     if rising_edge(CLK_I) then
@@ -77,5 +78,6 @@ begin
     end if;
   end process;
 
-  OUTPUT_O <= s_Q;
+  --! Asignación de salida.
+  OUTPUT : OUTPUT_O <= s_Q;
 end Behavioral;
