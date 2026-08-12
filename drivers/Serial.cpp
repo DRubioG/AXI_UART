@@ -44,9 +44,9 @@ void begin(long baud)
 {
     uint32_t reg = readReg(CONF);
 
-    uint32_t reg_blank = reg & 0xFFF00;
+    uint32_t reg_blank = reg & 0x3F;
 
-    uint32_t baud_counts = _frequency/baud;
+    uint32_t baud_counts = _frequency / baud;
 
     BitsUART data;
     BitSTOP bit_stop;
@@ -56,7 +56,7 @@ void begin(long baud)
     bit_stop = BIT_STOP;
     bit_par = BIT_N;
 
-    Xil_Out32(_address + CONTROL_REG, reg_blank | baud);
+    Xil_Out32(_address + CONTROL_REG, reg_blank | (baud << BAUDS_POS));
 }
 
 void begin(long baud, SerialConfig config)
@@ -64,11 +64,13 @@ void begin(long baud, SerialConfig config)
     begin(baud);
 
     uint32_t reg = readReg(CONF);
-    uint32_t reg_blank = reg & 0xFFF00;
+    uint32_t reg_blank = reg & ~0x3D;
 
     BitsUART data;
     BitSTOP bit_stop;
     BitParidad bit_par;
+
+    uint8_t type_serial = 0;
 
     switch (config)
     {
@@ -197,7 +199,9 @@ void begin(long baud, SerialConfig config)
         break;
     }
 
-    Xil_Out32(_address + CONTROL_REG, reg_blank | (type_serial << 9));
+    type_serial = (bit_stop << DUAL_STOP_POS) | (bit_par << PARITY_POS) | (data << SIZE_POS);
+
+    Xil_Out32(_address + CONTROL_REG, reg_blank | (type_serial << DUAL_STOP_POS));
 }
 
 void Serial::end()
@@ -212,6 +216,8 @@ size_t Serial::print(char *val)
 
     for (size_t i = 0; i < size; i++)
     {
+        Xil_Out32(_address + TX_REG, val[i]);
+        while (~((Xil_In32(_address) >> READY_BIT_POS) & 0x1));
     }
 
     return size;

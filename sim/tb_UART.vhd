@@ -57,6 +57,7 @@ begin
     DATA_OK_I <= '1';
     wait for clk_period;
     DATA_OK_I <= '0';
+    wait;
   end process;
 
 end;

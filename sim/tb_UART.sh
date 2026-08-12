@@ -9,4 +9,4 @@ nvc -a tb_UART.vhd
 
 nvc -e UART_tb
 
-nvc -r UART_tb --stop-time=10ms --wave=UART_tb.vcd
+nvc -r UART_tb --stop-time=300us --wave=UART_tb.vcd

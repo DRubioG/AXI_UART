@@ -8,18 +8,25 @@
 #define TX_REG BASE_ADRESS + 0x04
 #define RX_REG BASE_ADRESS + 0x08
 
+#define DUAL_STOP_POS 1
+#define PARITY_POS 2
+#define SIZE_POS 4
+#define BAUDS_POS 6
+
+#define READY_BIT_POS 9
+
 typedef enum
 {
-    BITS5 = 0x1,
+    BITS5 = 0x3,
     BITS6 = 0x2,
-    BITS7 = 0x3,
-    BITS8 = 0x4
+    BITS7 = 0x1,
+    BITS8 = 0x0
 } BitsUART;
 
 typedef enum
 {
-    BIT_STOP,
-    BIT_STOP_2
+    BIT_STOP = 0,
+    BIT_STOP_2 = 1
 } BitSTOP;
 
 typedef enum
@@ -101,7 +108,7 @@ public:
     int availableForWrite();
     /**
      * @brief Comenzar el funcionamiento de la UART.
-     * 
+     *
      * @param baud Baudios de la UART.
      */
     void begin(long baud);
