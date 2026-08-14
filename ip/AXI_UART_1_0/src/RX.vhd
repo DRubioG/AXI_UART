@@ -124,7 +124,7 @@ begin
 
           when SM_DATA =>
             re_state <= SM_DATA;
-            if r_cont >= r_bit_limit then
+            if r_cont >= r_bit_limit-1 then
               re_state <= SM_STOP;
               if PARITY_I(1) = '1' then
                 re_state <= SM_PARITY;
